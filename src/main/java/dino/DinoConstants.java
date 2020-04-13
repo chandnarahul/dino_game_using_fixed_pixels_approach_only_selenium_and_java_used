@@ -11,7 +11,7 @@ public class DinoConstants {
     public static final int GRAY_SCALE_PIXEL_COLOR = 90;
     public static final int PIXELS_BUFFER = 15;
     public static final int MAX_COMMON_IMAGES = 5;
-    public static int JUMP_SAFE_DISTANCE = 174;
+    public static int JUMP_SAFE_DISTANCE = 175;
 
     /*
      * Runner.instance_.currentSpeed;
