@@ -12,3 +12,6 @@
 
 ## Test Cases:
 ### All image process test cases are written using JUnit and are in dino.sensor package
+
+## Configuration
+## Game configuration like when to jump can be updated via DinoConstants.java class
