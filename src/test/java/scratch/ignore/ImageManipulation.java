@@ -1,4 +1,4 @@
-package integration.tests;
+package scratch.ignore;
 
 import javax.swing.*;
 import java.awt.*;
