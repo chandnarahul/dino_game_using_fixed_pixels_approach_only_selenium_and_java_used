@@ -1,6 +1,8 @@
 # This code plays the google chrome offline mode dino game
 
-# In this first humble try, there is one problem, this code is screen resolution dependent, if your laptop is old and the screenshot image.width() is 500 then it will work. In new laptop the screenshot will have more pixels due to which the current fixed X and Y constants will result in an incorrect sub image.
+# In this first humble try, there are two problems
+#### In its current form this code is screen resolution dependent, if your laptop is old and the screenshot image.width() is 500 then it will work. In new laptop the screenshot will have more pixels due to which the current fixed X and Y constants will result in an incorrect sub image.
+#### Currently it only runs in day mode, this is easy to fix by taking the average of half the pixels in a row to identify if it is morning or night, I will add that in my next approach 
 
 ## Algorithm:
 #### The code uses selenium to take a screenshot
