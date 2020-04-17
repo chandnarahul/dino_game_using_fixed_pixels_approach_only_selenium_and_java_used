@@ -3,7 +3,7 @@
 ## In this first try, there is one major and two minor problems:
 #### In its current form this code is screen resolution dependent, if your laptop is old and the resolution is 1366x768 then it will work. In new laptop the screenshot will have more pixels due to which the current fixed X and Y constants will result in an incorrect sub image.
 #### Currently it only runs in day mode, this is easy to fix by taking the average of half the pixels in a row to identify if it is morning or night, I will add that in my next approach
-#### Since I am taking screenshot which takes around 40 to 90 milliseconds, image processing is under 2 milliseconds, so if i fix the night mode operation in this project, the game will fail because eventually the Dino velocity will be so high that due to the screenshot delay by the time a descision has been made Dino would have already hit the cactus.
+#### Since I am taking screenshot which takes around 40 to 90 milliseconds, image processing is under 2 milliseconds, so if i fix the night mode operation in this project, the game will anyways eventually fail because the Dino velocity will be so high that due to the screenshot delay by the time a descision has been made Dino would have already hit the cactus.
 
 ## Algorithm:
 #### The code uses selenium to take a screenshot
