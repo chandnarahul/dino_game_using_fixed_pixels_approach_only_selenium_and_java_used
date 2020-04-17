@@ -1,6 +1,6 @@
 # This code plays the google chrome offline mode dino game
 
-# There is one problem however, this code is screen resolution dependent, if your laptop is old and the screenshot image.width() is 500 then it will work.
+# In this first humble try, there is one problem, this code is screen resolution dependent, if your laptop is old and the screenshot image.width() is 500 then it will work. In new laptop the screenshot will have more pixels due to which the current fixed X and Y constants will result in an incorrect sub image.
 
 ## Algorithm:
 #### The code uses selenium to take a screenshot
