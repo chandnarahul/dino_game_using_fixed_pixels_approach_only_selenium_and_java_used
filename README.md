@@ -1,4 +1,6 @@
-# This code plays the google chrome offline mode dino game
+# This code plays the google chrome offline mode dino game - First Try Using Pixels Only
+
+# There is one problem however, this code is screen resolution dependent, if your laptop is old and the screenshot image.width() is 500 then it will work.
 
 ## Algorithm:
 #### The code uses selenium to take a screenshot
