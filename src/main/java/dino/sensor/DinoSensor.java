@@ -9,22 +9,22 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 
 public class DinoSensor {
+    private final BufferedImage image;
     private ObjectLocation objectLocation = ObjectLocation.NO_OBJECT_DETECTED;
     private int groundObjectWidth = 0;
-    private final BufferedImage image;
     private int objectXAxisPoint;
 
     public DinoSensor(BufferedImage image) {
-        if (image.getWidth() == DinoConstants.GAME_CANVAS_WIDTH) {
-            this.image = removeDinoFloorAndSkyFromImage(image);
-        } else {
-            this.image = image;
-        }
+        this.image = removeDinoFloorAndSkyFromImage(image);
         this.findObject();
     }
 
     private BufferedImage removeDinoFloorAndSkyFromImage(BufferedImage image) {
-        return image.getSubimage(DinoConstants.DINO_X_AXIS, DinoConstants.DINO_Y_AXIS, image.getWidth() / 2, image.getHeight() - 291);
+        try {
+            return image.getSubimage(DinoConstants.DINO_X_AXIS, DinoConstants.DINO_Y_AXIS, image.getWidth() - DinoConstants.DINO_X_AXIS, 35);
+        } catch (Exception ignored) {
+            return image;
+        }
     }
 
     public DataBufferByte imageDataBuffer() {
