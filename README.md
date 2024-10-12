@@ -20,10 +20,8 @@ This code plays the Google Chrome offline mode Dino game.
 To see the code in action using the Selenium driver, follow these steps:
 
 1. **Install Google Chrome:** Ensure that Google Chrome is installed on your machine.
-2. 
-3. **Run `RunChromeForManualExecution.java`:** Locate the file in your integration tests. With WebDriverManager, there is no need to manually set the driver path.
-
-5. **Run the Program:**
+2. **Run `RunChromeForManualExecution.java`:** Locate the file in your integration tests. With WebDriverManager, there is no need to manually set the driver path.
+3. **Run the Program:**
     - If you're using IntelliJ, simply click the green pointer next to the `public static void main` method to run the program.
 
 ## Test Cases
