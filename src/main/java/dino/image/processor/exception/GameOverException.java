@@ -1,4 +1,4 @@
-package dino.sensor.exception;
+package dino.image.processor.exception;
 
 public class GameOverException extends RuntimeException {
     public GameOverException(String game_over) {

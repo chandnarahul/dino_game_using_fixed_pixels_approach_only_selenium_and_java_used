@@ -1,6 +1,6 @@
-package dino.sensor.object;
+package dino.image.processor.object;
 
-public enum ObjectLocation {
+public enum ObstacleLocation {
     IN_THE_SKY,
     CLOSER_TO_THE_GROUND,
     NO_OBJECT_DETECTED

@@ -1,28 +1,28 @@
-package dino.sensor;
+package dino.image.processor;
 
-import dino.sensor.exception.GameOverException;
-import dino.sensor.object.ObjectLocation;
+import dino.image.processor.exception.GameOverException;
+import dino.image.processor.object.ObstacleLocation;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.util.Arrays;
 import java.util.List;
 
-public class DinoImageSensorInteraction {
+public class GameImageProcessor {
 
     public static final int MAX_COMMON_IMAGES = 5;
-    private final DinoSensor dinoSensor;
-    private final List<DinoSensor> imageBuffers;
+    private final GameCanvas gameCanvas;
+    private final List<GameCanvas> imageBuffers;
 
-    public DinoImageSensorInteraction(BufferedImage image, List<DinoSensor> imageBuffers) {
-        this.dinoSensor = new DinoSensor(image);
+    public GameImageProcessor(BufferedImage image, List<GameCanvas> imageBuffers) {
+        this.gameCanvas = new GameCanvas(image);
         this.imageBuffers = imageBuffers;
-        imageBuffers.add(dinoSensor);
+        imageBuffers.add(gameCanvas);
         stopExecutionIfNoNewImageIsReceived();
     }
 
-    public ObjectLocation performAction() {
-        return dinoSensor.performAction();
+    public ObstacleLocation getNextObstacleLocation() {
+        return gameCanvas.getNextObstacleLocation();
     }
 
     private void stopExecutionIfNoNewImageIsReceived() {
@@ -34,10 +34,10 @@ public class DinoImageSensorInteraction {
     }
 
     private boolean ifUniqueImage() {
-        for (DinoSensor previous : imageBuffers) {
+        for (GameCanvas previous : imageBuffers) {
             DataBufferByte dataBufferByte = previous.imageDataBuffer();
-            for (int dataBanks = 0; dataBanks < dataBufferByte.getNumBanks(); dataBanks++) {
-                if (Arrays.equals(dinoSensor.imageDataBuffer().getData(dataBanks), dataBufferByte.getData(dataBanks))) {
+            if (dataBufferByte.getNumBanks() > 0) {
+                if (Arrays.equals(gameCanvas.imageDataBuffer().getData(0), dataBufferByte.getData(0))) {
                     return Boolean.FALSE;
                 } else {
                     return Boolean.TRUE;

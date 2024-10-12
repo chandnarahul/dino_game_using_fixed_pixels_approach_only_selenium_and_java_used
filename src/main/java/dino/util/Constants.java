@@ -1,9 +1,8 @@
-package dino;
+package dino.util;
 
-public class DinoConstants {
+public class Constants {
 
     public static final boolean IN_DEBUG_MODE = Boolean.FALSE;
-    public static final int GAME_CANVAS_WIDTH = 500;
     public static final int PIXEL_NOT_FOUND = -1;
     public static final int DINO_X_AXIS = 78;
     public static final int DINO_Y_AXIS = 110;

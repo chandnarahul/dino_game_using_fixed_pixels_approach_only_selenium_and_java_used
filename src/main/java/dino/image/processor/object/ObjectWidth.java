@@ -1,7 +1,7 @@
-package dino.sensor.object;
+package dino.image.processor.object;
 
-import dino.DinoConstants;
-import dino.sensor.image.PixelUtility;
+import dino.util.Constants;
+import dino.util.ImageUtility;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -20,13 +20,13 @@ public class ObjectWidth {
         int pixelNotFound = 0;
         int lastPixelFound = 0;
         for (int i = this.objectXAxisPoint; i < image.getWidth(); i++) {
-            if (new PixelUtility(image).isGrayPixel(i, image.getHeight() - 1)) {
+            if (new ImageUtility(image).isGrayPixel(i, image.getHeight() - 1)) {
                 lastPixelFound = i;
                 pixelNotFound = 0;
             } else {
                 pixelNotFound++;
             }
-            if (pixelNotFound > DinoConstants.PIXELS_BUFFER) {
+            if (pixelNotFound > Constants.PIXELS_BUFFER) {
                 return calculateObjectWidth(lastPixelFound);
             }
         }
@@ -40,10 +40,10 @@ public class ObjectWidth {
 
     private void extractObjectAsImage(int lastPixelFound) {
         try {
-            if (DinoConstants.IN_DEBUG_MODE && lastPixelFound != 0) {
+            if (Constants.IN_DEBUG_MODE && lastPixelFound != 0) {
                 ImageIO.write(image.getSubimage(this.objectXAxisPoint, 0, lastPixelFound - this.objectXAxisPoint, 30), "png", new File("images/block.png"));
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }

@@ -1,14 +1,12 @@
-package dino.sensor.image;
-
-import dino.DinoConstants;
+package dino.util;
 
 import java.awt.image.BufferedImage;
 
-public class PixelUtility {
+public class ImageUtility {
 
     private final BufferedImage image;
 
-    public PixelUtility(BufferedImage image) {
+    public ImageUtility(BufferedImage image) {
         this.image = image;
     }
 
@@ -18,6 +16,6 @@ public class PixelUtility {
 
     public boolean isGrayPixel(int xAxis, int yAxisBottomUp) {
         int pixel = image.getRGB(xAxis, yAxisBottomUp) & 0xFF;
-        return pixel < DinoConstants.GRAY_SCALE_PIXEL_COLOR;
+        return pixel < Constants.GRAY_SCALE_PIXEL_COLOR;
     }
 }

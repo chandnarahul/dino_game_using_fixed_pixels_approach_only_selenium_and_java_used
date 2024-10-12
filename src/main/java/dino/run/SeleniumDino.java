@@ -1,8 +1,8 @@
 package dino.run;
 
-import dino.DinoConstants;
-import dino.sensor.DinoImageSensorInteraction;
-import dino.sensor.DinoSensor;
+import dino.image.processor.GameCanvas;
+import dino.image.processor.GameImageProcessor;
+import dino.util.Constants;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.*;
 
@@ -17,7 +17,7 @@ import java.util.List;
 
 public class SeleniumDino {
     private final WebDriver webDriver;
-    private final List<DinoSensor> imageBuffers = new ArrayList<>(DinoConstants.MAX_COMMON_IMAGES);
+    private final List<GameCanvas> imageBuffers = new ArrayList<>(Constants.MAX_COMMON_IMAGES);
     private Date gameStartTime;
 
     public SeleniumDino(WebDriver webDriver) {
@@ -30,17 +30,18 @@ public class SeleniumDino {
         return ImageIO.read(((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE)).getSubimage(rect.x, rect.y, rect.width, rect.height);
     }
 
+
     public int run() {
         try {
             startGame();
-            for (; ; ) {
+            while (true) {
                 processImageAndTakeAction();
             }
-        } catch (Throwable e) {
+        } catch (Throwable ignored) {
         } finally {
             webDriver.quit();
-            return (int) (new Date().getTime() - gameStartTime.getTime());
         }
+        return (int) (new Date().getTime() - gameStartTime.getTime());
     }
 
     private void startGame() throws InterruptedException {
@@ -49,8 +50,8 @@ public class SeleniumDino {
         gameStartTime = new Date();
     }
 
-    private void processImageAndTakeAction() throws IOException, AWTException {
-        switch (new DinoImageSensorInteraction(takeScreenshot(), imageBuffers).performAction()) {
+    private void processImageAndTakeAction() throws Exception {
+        switch (new GameImageProcessor(takeScreenshot(), imageBuffers).getNextObstacleLocation()) {
             case CLOSER_TO_THE_GROUND:
                 jump();
                 break;
