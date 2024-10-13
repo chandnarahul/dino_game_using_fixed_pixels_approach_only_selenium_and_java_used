@@ -7,11 +7,11 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class ObjectWidth {
+public class ObstacleDimension {
     private final int objectXAxisPoint;
     private final BufferedImage image;
 
-    public ObjectWidth(int objectXAxisPoint, BufferedImage image) {
+    public ObstacleDimension(int objectXAxisPoint, BufferedImage image) {
         this.objectXAxisPoint = objectXAxisPoint;
         this.image = image;
     }
