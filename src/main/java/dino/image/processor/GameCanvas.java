@@ -31,15 +31,6 @@ public class GameCanvas {
         return (DataBufferByte) image.getRaster().getDataBuffer();
     }
 
-
-    private boolean isAnyPixelFoundAtBottomFrom(int axis) {
-        if (ImageUtility.hasGrayPixel(image, axis)) {
-            return Boolean.TRUE;
-        } else {
-            return Boolean.FALSE;
-        }
-    }
-
     private void findObject() {
         int firstPixelFoundAt = Constants.PIXEL_NOT_FOUND;
         for (int axis = 0; axis < image.getWidth(); axis++) {
@@ -47,7 +38,7 @@ public class GameCanvas {
                 firstPixelFoundAt = setFirstPixelValue(firstPixelFoundAt, axis);
                 this.obstacleLocation = ObstacleLocation.IN_THE_SKY;
             }
-            if (isAnyPixelFoundAtBottomFrom(axis)) {
+            if (ImageUtility.hasGrayPixel(image, axis)) {
                 firstPixelFoundAt = setFirstPixelValue(firstPixelFoundAt, axis);
                 this.obstacleLocation = ObstacleLocation.CLOSER_TO_THE_GROUND;
                 this.groundObjectWidth = new ObstacleDimension(this.objectXAxisPoint, this.image).determineWidthOfTheGroundObject();
