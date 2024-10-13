@@ -20,7 +20,7 @@ public class ObstacleDimension {
         int pixelNotFound = 0;
         int lastPixelFound = 0;
         for (int i = this.objectXAxisPoint; i < image.getWidth(); i++) {
-            if (new ImageUtility(image).isGrayPixel(i, image.getHeight() - 1)) {
+            if (ImageUtility.hasGrayPixel(image, i)) {
                 lastPixelFound = i;
                 pixelNotFound = 0;
             } else {
