@@ -7,11 +7,11 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class ObjectWidth {
+public class ObstacleDimension {
     private final int objectXAxisPoint;
     private final BufferedImage image;
 
-    public ObjectWidth(int objectXAxisPoint, BufferedImage image) {
+    public ObstacleDimension(int objectXAxisPoint, BufferedImage image) {
         this.objectXAxisPoint = objectXAxisPoint;
         this.image = image;
     }
@@ -20,7 +20,7 @@ public class ObjectWidth {
         int pixelNotFound = 0;
         int lastPixelFound = 0;
         for (int i = this.objectXAxisPoint; i < image.getWidth(); i++) {
-            if (new ImageUtility(image).isGrayPixel(i, image.getHeight() - 1)) {
+            if (ImageUtility.hasGrayPixel(image, i)) {
                 lastPixelFound = i;
                 pixelNotFound = 0;
             } else {
