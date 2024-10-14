@@ -1,5 +1,7 @@
 package dino.image.processor;
 
+import dino.image.processor.GameImageProcessor;
+import dino.image.processor.GameCanvas;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;

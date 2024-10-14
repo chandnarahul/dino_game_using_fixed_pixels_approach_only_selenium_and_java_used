@@ -3,9 +3,7 @@ package dino.image.processor.object;
 import dino.util.Constants;
 import dino.util.ImageUtility;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
 public class ObstacleDimension {
     private final int objectXAxisPoint;
@@ -20,7 +18,7 @@ public class ObstacleDimension {
         int pixelNotFound = 0;
         int lastPixelFound = 0;
         for (int i = this.objectXAxisPoint; i < image.getWidth(); i++) {
-            if (ImageUtility.hasGrayPixel(image, i)) {
+            if (new ImageUtility(image).isGrayPixel(i, image.getHeight() - 1)) {
                 lastPixelFound = i;
                 pixelNotFound = 0;
             } else {
@@ -34,17 +32,6 @@ public class ObstacleDimension {
     }
 
     private int calculateObjectWidth(int lastPixelFound) {
-        extractObjectAsImage(lastPixelFound);
         return lastPixelFound - this.objectXAxisPoint;
-    }
-
-    private void extractObjectAsImage(int lastPixelFound) {
-        try {
-            if (Constants.IN_DEBUG_MODE && lastPixelFound != 0) {
-                ImageIO.write(image.getSubimage(this.objectXAxisPoint, 0, lastPixelFound - this.objectXAxisPoint, 30), "png", new File("images/block.png"));
-            }
-        } catch (Exception ignored) {
-
-        }
     }
 }

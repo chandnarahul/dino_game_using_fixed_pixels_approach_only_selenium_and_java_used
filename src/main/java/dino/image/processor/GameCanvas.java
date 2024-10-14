@@ -31,6 +31,11 @@ public class GameCanvas {
         return (DataBufferByte) image.getRaster().getDataBuffer();
     }
 
+    private boolean isAnyPixelFoundAtBottomFrom(int currentXAxisLocation) {
+        int traverseYAxis = image.getHeight() - 1;
+        return new ImageUtility(image).isGrayPixel(currentXAxisLocation, traverseYAxis);
+    }
+
     private void findObject() {
         int firstPixelFoundAt = Constants.PIXEL_NOT_FOUND;
         for (int axis = 0; axis < image.getWidth(); axis++) {
