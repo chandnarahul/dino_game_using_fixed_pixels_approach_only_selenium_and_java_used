@@ -1,4 +1,4 @@
-package dino.sensor;
+package dino.image.processor;
 
 import dino.image.processor.GameImageProcessor;
 import dino.image.processor.GameCanvas;

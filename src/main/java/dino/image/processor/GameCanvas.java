@@ -1,7 +1,7 @@
 package dino.image.processor;
 
+import dino.image.processor.object.ObstacleDimension;
 import dino.image.processor.object.ObstacleLocation;
-import dino.image.processor.object.ObjectWidth;
 import dino.util.Constants;
 import dino.util.ImageUtility;
 
@@ -34,11 +34,7 @@ public class GameCanvas {
 
     private boolean isAnyPixelFoundAtBottomFrom(int currentXAxisLocation) {
         int traverseYAxis = image.getHeight() - 1;
-        if (new ImageUtility(image).isGrayPixel(currentXAxisLocation, traverseYAxis)) {
-            return Boolean.TRUE;
-        } else {
-            return Boolean.FALSE;
-        }
+        return new ImageUtility(image).isGrayPixel(currentXAxisLocation, traverseYAxis);
     }
 
     private void findObject() {
@@ -51,7 +47,7 @@ public class GameCanvas {
             if (isAnyPixelFoundAtBottomFrom(X_AXIS)) {
                 firstPixelFoundAt = setFirstPixelValue(firstPixelFoundAt, X_AXIS);
                 this.obstacleLocation = ObstacleLocation.CLOSER_TO_THE_GROUND;
-                this.groundObjectWidth = new ObjectWidth(this.objectXAxisPoint, this.image).determineWidthOfTheGroundObject();
+                this.groundObjectWidth = new ObstacleDimension(this.objectXAxisPoint, this.image).determineWidthOfTheGroundObject();
             }
             if (firstPixelFoundAt != Constants.PIXEL_NOT_FOUND && (X_AXIS - firstPixelFoundAt) > Constants.PIXELS_BUFFER) {
                 break;

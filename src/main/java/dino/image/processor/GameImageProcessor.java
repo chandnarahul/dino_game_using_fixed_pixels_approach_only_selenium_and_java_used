@@ -37,11 +37,7 @@ public class GameImageProcessor {
         for (GameCanvas previous : imageBuffers) {
             DataBufferByte dataBufferByte = previous.imageDataBuffer();
             if (dataBufferByte.getNumBanks() > 0) {
-                if (Arrays.equals(gameCanvas.imageDataBuffer().getData(0), dataBufferByte.getData(0))) {
-                    return Boolean.FALSE;
-                } else {
-                    return Boolean.TRUE;
-                }
+                return !Arrays.equals(gameCanvas.imageDataBuffer().getData(0), dataBufferByte.getData(0));
             }
         }
         return Boolean.TRUE;
