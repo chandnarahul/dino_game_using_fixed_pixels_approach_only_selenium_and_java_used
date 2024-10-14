@@ -1,7 +1,8 @@
 package dino.image.processor;
 
+import dino.image.processor.object.ObstacleAction;
 import dino.image.processor.object.ObstacleDimension;
-import dino.image.processor.object.ObstacleLocation;
+import dino.image.processor.object.ObstacleType;
 import dino.util.Constants;
 import dino.util.ImageUtility;
 
@@ -10,7 +11,7 @@ import java.awt.image.DataBufferByte;
 
 public class GameCanvas {
     private final BufferedImage image;
-    private ObstacleLocation obstacleLocation = ObstacleLocation.NO_OBJECT_DETECTED;
+    private ObstacleType obstacleType = ObstacleType.NONE;
     private int groundObjectWidth = 0;
     private int objectXAxisPoint;
 
@@ -40,17 +41,15 @@ public class GameCanvas {
     private void findObject() {
         int firstPixelFoundAt = Constants.PIXEL_NOT_FOUND;
         for (int X_AXIS = 0; X_AXIS < image.getWidth(); X_AXIS++) {
-            if (new ImageUtility(image).isAnyPixelFoundAtTop(X_AXIS)) {
-                firstPixelFoundAt = setFirstPixelValue(firstPixelFoundAt, X_AXIS);
-                this.obstacleLocation = ObstacleLocation.IN_THE_SKY;
-            }
-            if (isAnyPixelFoundAtBottomFrom(X_AXIS)) {
-                firstPixelFoundAt = setFirstPixelValue(firstPixelFoundAt, X_AXIS);
-                this.obstacleLocation = ObstacleLocation.CLOSER_TO_THE_GROUND;
-                this.groundObjectWidth = new ObstacleDimension(this.objectXAxisPoint, this.image).determineWidthOfTheGroundObject();
-            }
-            if (firstPixelFoundAt != Constants.PIXEL_NOT_FOUND && (X_AXIS - firstPixelFoundAt) > Constants.PIXELS_BUFFER) {
+            if (firstPixelFoundAt != Constants.PIXEL_NOT_FOUND && (X_AXIS - firstPixelFoundAt) > Constants.MINIMUM_GROUP_OF_PIXELS) {
                 break;
+            } else if (isAnyPixelFoundAtBottomFrom(X_AXIS)) {
+                firstPixelFoundAt = setFirstPixelValue(firstPixelFoundAt, X_AXIS);
+                this.obstacleType = ObstacleType.CACTUS;
+                this.groundObjectWidth = new ObstacleDimension(this.objectXAxisPoint, this.image).determineWidthOfTheGroundObject();
+            } else if (new ImageUtility(image).isAnyPixelFoundAtTop(X_AXIS)) {
+                firstPixelFoundAt = setFirstPixelValue(firstPixelFoundAt, X_AXIS);
+                this.obstacleType = ObstacleType.BIRD;
             }
         }
     }
@@ -64,12 +63,12 @@ public class GameCanvas {
         }
     }
 
-    public ObstacleLocation objectLocation() {
-        return this.obstacleLocation;
+    public ObstacleType obstacleType() {
+        return this.obstacleType;
     }
 
     public boolean isLongGroundObject() {
-        return groundObjectWidth >= Constants.CLUSTERED_CACTUS_SIZE;
+        return groundObjectWidth >= Constants.CLUSTERED_CACTUS_WIDTH;
     }
 
     public int getGroundObjectWidth() {
@@ -85,21 +84,17 @@ public class GameCanvas {
         }
     }
 
-    public ObstacleLocation performGroundAction() {
-        return distanceFromObject() < Constants.JUMP_SAFE_DISTANCE ? ObstacleLocation.CLOSER_TO_THE_GROUND : ObstacleLocation.NO_OBJECT_DETECTED;
+    private boolean isObstacleClose() {
+        return distanceFromObject() <= Constants.JUMP_SAFE_DISTANCE;
     }
 
-    public ObstacleLocation performFlyingAction() {
-        return distanceFromObject() <= Constants.JUMP_SAFE_DISTANCE ? ObstacleLocation.IN_THE_SKY : ObstacleLocation.NO_OBJECT_DETECTED;
-    }
-
-    public ObstacleLocation getNextObstacleLocation() {
-        if (objectLocation() == ObstacleLocation.CLOSER_TO_THE_GROUND) {
-            return performGroundAction();
-        } else if (objectLocation() == ObstacleLocation.IN_THE_SKY) {
-            return performFlyingAction();
+    public ObstacleAction getNextObstacleAction() {
+        if (obstacleType() == ObstacleType.CACTUS && isObstacleClose()) {
+            return ObstacleAction.JUMP;
+        } else if (obstacleType() == ObstacleType.BIRD && isObstacleClose()) {
+            return ObstacleAction.LOWER_THE_HEAD;
         } else {
-            return ObstacleLocation.NO_OBJECT_DETECTED;
+            return ObstacleAction.NONE;
         }
     }
 }

@@ -1,7 +1,7 @@
 package dino.image.processor;
 
 import dino.image.processor.exception.GameOverException;
-import dino.image.processor.object.ObstacleLocation;
+import dino.image.processor.object.ObstacleAction;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
@@ -21,8 +21,8 @@ public class GameImageProcessor {
         stopExecutionIfNoNewImageIsReceived();
     }
 
-    public ObstacleLocation getNextObstacleLocation() {
-        return gameCanvas.getNextObstacleLocation();
+    public ObstacleAction getNextAction() {
+        return gameCanvas.getNextObstacleAction();
     }
 
     private void stopExecutionIfNoNewImageIsReceived() {

@@ -1,7 +1,6 @@
 package dino.image.processor;
 
-import dino.image.processor.GameCanvas;
-import dino.image.processor.object.ObstacleLocation;
+import dino.image.processor.object.ObstacleType;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;
@@ -35,7 +34,7 @@ public class GameCanvasTest {
     @Test
     public void should_identify_flyingObject() throws IOException {
         GameCanvas gameCanvas = new GameCanvas(ImageIO.read(new File("src/test/resources/flying.png")));
-        assertEquals(ObstacleLocation.IN_THE_SKY, gameCanvas.objectLocation());
+        assertEquals(ObstacleType.BIRD, gameCanvas.obstacleType());
     }
 
     @Test
@@ -47,19 +46,19 @@ public class GameCanvasTest {
     @Test(expected = AssertionError.class)
     public void should_fail_since_this_is_not_a_flyingObject() throws IOException {
         GameCanvas gameCanvas = new GameCanvas(ImageIO.read(new File("src/test/resources/duck_bug.png")));
-        assertEquals(ObstacleLocation.IN_THE_SKY, gameCanvas.objectLocation());
+        assertEquals(ObstacleType.BIRD, gameCanvas.obstacleType());
     }
 
     @Test
     public void should_identify_mini_object_closer_to_the_ground_1() throws IOException {
         GameCanvas gameCanvas = new GameCanvas(ImageIO.read(new File("src/test/resources/mini_objects.png")));
-        assertEquals(ObstacleLocation.CLOSER_TO_THE_GROUND, gameCanvas.objectLocation());
+        assertEquals(ObstacleType.CACTUS, gameCanvas.obstacleType());
     }
 
     @Test
     public void should_identify_mini_object_closer_to_the_ground_2() throws IOException {
         GameCanvas gameCanvas = new GameCanvas(ImageIO.read(new File("src/test/resources/game67.png")));
-        assertEquals(ObstacleLocation.CLOSER_TO_THE_GROUND, gameCanvas.objectLocation());
+        assertEquals(ObstacleType.CACTUS, gameCanvas.obstacleType());
     }
 
     @Test

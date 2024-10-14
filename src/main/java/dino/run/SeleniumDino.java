@@ -2,6 +2,7 @@ package dino.run;
 
 import dino.image.processor.GameCanvas;
 import dino.image.processor.GameImageProcessor;
+import dino.image.processor.object.ObstacleAction;
 import dino.util.Constants;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.*;
@@ -17,58 +18,70 @@ import java.util.List;
 
 public class SeleniumDino {
     private final WebDriver webDriver;
-    private final List<GameCanvas> imageBuffers = new ArrayList<>(Constants.MAX_COMMON_IMAGES);
+    private final List<GameCanvas> imageBuffers;
     private Date gameStartTime;
 
     public SeleniumDino(WebDriver webDriver) {
         this.webDriver = webDriver;
+        this.imageBuffers = new ArrayList<>(Constants.MAX_COMMON_IMAGES); // Initialized in constructor
     }
-
-    private BufferedImage takeScreenshot() throws IOException {
-        WebElement element1 = webDriver.findElement(By.className("runner-canvas"));
-        Rectangle rect = element1.getRect();
-        return ImageIO.read(((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE)).getSubimage(rect.x, rect.y, rect.width, rect.height);
-    }
-
 
     public int run() {
         try {
             startGame();
-            while (true) {
-                processImageAndTakeAction();
-            }
-        } catch (Throwable ignored) {
+            gameLoop();  // Extracted game loop to its own method for clarity
+        } catch (Exception ignored) {
         } finally {
             webDriver.quit();
         }
-        return (int) (new Date().getTime() - gameStartTime.getTime());
+        return calculateGameDuration();
     }
 
     private void startGame() throws InterruptedException {
-        jump();
-        Thread.sleep(2000);
+        performJump();
+        Thread.sleep(2000); // Consider replacing with explicit waits to avoid hardcoded sleep
         gameStartTime = new Date();
     }
 
-    private void processImageAndTakeAction() throws Exception {
-        switch (new GameImageProcessor(takeScreenshot(), imageBuffers).getNextObstacleLocation()) {
-            case CLOSER_TO_THE_GROUND:
-                jump();
-                break;
-            case IN_THE_SKY:
-                duckFromObjectInTheSky();
-                break;
+    private void gameLoop() throws Exception {
+        while (true) {
+            processImageAndTakeAction();
         }
     }
 
-    private void jump() {
+    private void processImageAndTakeAction() throws Exception {
+        ObstacleAction nextAction = getNextAction();
+        if (nextAction == ObstacleAction.JUMP) {
+            performJump();
+        } else if (nextAction == ObstacleAction.LOWER_THE_HEAD) {
+            performDuck();
+        }
+    }
+
+    private ObstacleAction getNextAction() throws IOException {
+        BufferedImage screenshot = takeScreenshot();
+        return new GameImageProcessor(screenshot, imageBuffers).getNextAction();
+    }
+
+    private BufferedImage takeScreenshot() throws IOException {
+        WebElement gameCanvas = webDriver.findElement(By.className("runner-canvas"));
+        Rectangle rect = gameCanvas.getRect();
+        BufferedImage fullImage = ImageIO.read(((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE));
+        return fullImage.getSubimage(rect.x, rect.y, rect.width, rect.height);
+    }
+
+    private void performJump() {
         webDriver.findElement(By.tagName("body")).sendKeys(Keys.UP);
     }
 
-    private void duckFromObjectInTheSky() throws AWTException {
+    private void performDuck() throws AWTException {
         Robot robot = new Robot();
         robot.keyPress(KeyEvent.VK_DOWN);
-        robot.delay(500);
+        robot.delay(500); // Consider adjusting the delay or making it configurable
         robot.keyRelease(KeyEvent.VK_DOWN);
+    }
+
+    private int calculateGameDuration() {
+        return (int) (new Date().getTime() - gameStartTime.getTime());
     }
 }

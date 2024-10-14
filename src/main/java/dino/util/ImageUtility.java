@@ -15,7 +15,16 @@ public class ImageUtility {
     }
 
     public boolean isGrayPixel(int xAxis, int yAxisBottomUp) {
-        int pixel = image.getRGB(xAxis, yAxisBottomUp) & 0xFF;
-        return pixel < Constants.GRAY_SCALE_PIXEL_COLOR;
+        int rgb = image.getRGB(xAxis, yAxisBottomUp);
+
+        // Extract Red, Green, and Blue components from the RGB value
+        int red = (rgb >> 16) & 0xFF;
+        int green = (rgb >> 8) & 0xFF;
+        int blue = rgb & 0xFF;
+
+        // Calculate the luminance (grayscale) value using the luminance formula
+        int grayscale = (int) (0.299 * red + 0.587 * green + 0.114 * blue);
+
+        return grayscale < Constants.GRAY_SCALE_PIXEL_COLOR;
     }
 }

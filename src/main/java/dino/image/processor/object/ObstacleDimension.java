@@ -24,7 +24,7 @@ public class ObstacleDimension {
             } else {
                 pixelNotFound++;
             }
-            if (pixelNotFound > Constants.PIXELS_BUFFER) {
+            if (pixelNotFound > Constants.MINIMUM_GROUP_OF_PIXELS) {
                 return calculateObjectWidth(lastPixelFound);
             }
         }
