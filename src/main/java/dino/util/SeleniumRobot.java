@@ -11,7 +11,6 @@ public class SeleniumRobot {
         robot.keyRelease(KeyEvent.VK_F6);
         Thread.sleep(500);
         String url = "chrome://dino";
-        System.out.println("is key " + (((int) 'c') == KeyEvent.VK_C));
         for (char c : url.toLowerCase().toCharArray()) {
             typeCharacter(robot, c);
             Thread.sleep(100);

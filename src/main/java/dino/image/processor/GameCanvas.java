@@ -22,7 +22,7 @@ public class GameCanvas {
     private BufferedImage removeDinoFloorAndSkyFromImage(BufferedImage image) {
         try {
             return image.getSubimage(Constants.DINO_X_AXIS, Constants.DINO_Y_AXIS, image.getWidth() - Constants.DINO_X_AXIS, 35);
-        } catch (Exception ignored) {
+        } catch (Exception invalidDimensions) {
             return image;
         }
     }
@@ -31,7 +31,6 @@ public class GameCanvas {
         return (DataBufferByte) image.getRaster().getDataBuffer();
     }
 
-
     private boolean isAnyPixelFoundAtBottomFrom(int currentXAxisLocation) {
         int traverseYAxis = image.getHeight() - 1;
         return new ImageUtility(image).isGrayPixel(currentXAxisLocation, traverseYAxis);
@@ -39,17 +38,17 @@ public class GameCanvas {
 
     private void findObject() {
         int firstPixelFoundAt = Constants.PIXEL_NOT_FOUND;
-        for (int X_AXIS = 0; X_AXIS < image.getWidth(); X_AXIS++) {
-            if (new ImageUtility(image).isAnyPixelFoundAtTop(X_AXIS)) {
-                firstPixelFoundAt = setFirstPixelValue(firstPixelFoundAt, X_AXIS);
+        for (int axis = 0; axis < image.getWidth(); axis++) {
+            if (ImageUtility.isAnyPixelFoundAtTop(image, axis)) {
+                firstPixelFoundAt = setFirstPixelValue(firstPixelFoundAt, axis);
                 this.obstacleLocation = ObstacleLocation.IN_THE_SKY;
             }
-            if (isAnyPixelFoundAtBottomFrom(X_AXIS)) {
-                firstPixelFoundAt = setFirstPixelValue(firstPixelFoundAt, X_AXIS);
+            if (ImageUtility.hasGrayPixel(image, axis)) {
+                firstPixelFoundAt = setFirstPixelValue(firstPixelFoundAt, axis);
                 this.obstacleLocation = ObstacleLocation.CLOSER_TO_THE_GROUND;
                 this.groundObjectWidth = new ObstacleDimension(this.objectXAxisPoint, this.image).determineWidthOfTheGroundObject();
             }
-            if (firstPixelFoundAt != Constants.PIXEL_NOT_FOUND && (X_AXIS - firstPixelFoundAt) > Constants.PIXELS_BUFFER) {
+            if (firstPixelFoundAt != Constants.PIXEL_NOT_FOUND && (axis - firstPixelFoundAt) > Constants.PIXELS_BUFFER) {
                 break;
             }
         }

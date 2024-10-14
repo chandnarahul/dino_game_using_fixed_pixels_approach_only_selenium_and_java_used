@@ -4,18 +4,13 @@ import java.awt.image.BufferedImage;
 
 public class ImageUtility {
 
-    private final BufferedImage image;
-
-    public ImageUtility(BufferedImage image) {
-        this.image = image;
+    public static boolean isAnyPixelFoundAtTop(BufferedImage image, int yAxis) {
+        return hasGrayPixel(image, yAxis);
     }
 
-    public boolean isAnyPixelFoundAtTop(int i) {
-        return isGrayPixel(i, 0);
-    }
-
-    public boolean isGrayPixel(int xAxis, int yAxisBottomUp) {
-        int pixel = image.getRGB(xAxis, yAxisBottomUp) & 0xFF;
+    public static boolean hasGrayPixel(BufferedImage image, int yAxis) {
+        int xAxis = image.getHeight() - 1;
+        int pixel = image.getRGB(xAxis, yAxis) & 0xFF;
         return pixel < Constants.GRAY_SCALE_PIXEL_COLOR;
     }
 }
